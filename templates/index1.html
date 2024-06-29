@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload and Generate Questions</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
+        h1, h2 { color: #333; }
+        form { margin-bottom: 20px; }
+        input[type="file"] { margin-bottom: 10px; }
+        button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin-bottom: 10px; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Upload PDF and Generate Questions</h1>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="{{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <label for="file-upload">Choose a PDF file to upload (max 10MB):</label>
+        <input type="file" id="file-upload" name="file" accept=".pdf" required>
+        <button type="submit">Upload and Generate Questions</button>
+    </form>
+
+    {% if questions %}
+    <h2>Generated Questions</h2>
+    <form action="{{ url_for('answer') }}" method="post">
+        <ul>
+            {% for question in questions %}
+            <li>
+                <label>
+                    <input type="checkbox" name="questions" value="{{ question }}" checked>
+                    {{ question }}
+                </label>
+            </li>
+            {% endfor %}
+        </ul>
+        <button type="submit">Get Answers</button>
+    </form>
+    {% endif %}
+</body>
+</html>

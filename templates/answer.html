@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answer - Document Q&A System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .qa-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .question, .answer {
+            margin-bottom: 20px;
+        }
+        .question h2, .answer h2 {
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        .question p, .answer p {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .back-link:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Document Q&A System</h1>
+    
+    <div class="qa-container">
+        <div class="question">
+            <h2>Question:</h2>
+            <p>{{ question }}</p>
+        </div>
+        <div class="answer">
+            <h2>Answer:</h2>
+            <p>{{ answer }}</p>
+        </div>
+    </div>
+    
+    <a href="{{ url_for('index') }}" class="back-link">Ask Another Question</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const answer = document.querySelector('.answer p');
+            let i = 0;
+            const text = answer.textContent;
+            answer.textContent = '';
+
+            function typeWriter() {
+                if (i < text.length) {
+                    answer.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 20);
+                }
+            }
+
+            typeWriter();
+        });
+    </script>
+</body>
+</html>
